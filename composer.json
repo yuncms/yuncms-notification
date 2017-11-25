@@ -19,9 +19,6 @@
     "yuncms/yuncms-user": "~2.0"
   },
   "autoload": {
-    "files": [
-      "helpers.php"
-    ],
     "psr-4": {
       "yuncms\\notification\\": ""
     }
