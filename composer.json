@@ -1,0 +1,54 @@
+{
+  "name": "yuncms/yuncms-notification",
+  "description": "The notification module for yuncms.",
+  "keywords": [
+    "notification",
+    "yii2",
+    "yii2-module"
+  ],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Xu TL",
+      "email": "xutongle@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "~2.0.6",
+    "yuncms/yuncms-user": "~2.0"
+  },
+  "autoload": {
+    "files": [
+      "helpers.php"
+    ],
+    "psr-4": {
+      "yuncms\\notification\\": ""
+    }
+  },
+  "extra": {
+    "yuncms": {
+      "name": "notification",
+      "i18n": {
+        "class": "yii\\i18n\\PhpMessageSource",
+        "sourceLanguage": "en-US",
+        "basePath": "@yuncms/notification/messages"
+      },
+      "migrationNamespace": "yuncms\\notification\\migrations",
+      "backend": {
+      },
+      "frontend": {
+        "class": "yuncms\\notification\\frontend\\Module"
+      }
+    },
+    "branch-alias": {
+      "dev-master": "2.0-dev"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}
