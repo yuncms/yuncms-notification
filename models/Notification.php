@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\notification\models;
 
 use Yii;
@@ -132,13 +133,14 @@ class Notification extends ActiveRecord
 
     /**
      * 快速创建实例
-     * @param array $attribute
+     * @param array $attributes
+     * @param boolean $runValidation
      * @return mixed
      */
-    public static function create(array $attribute)
+    public static function create(array $attributes, $runValidation = true)
     {
-        $model = new static ($attribute);
-        if ($model->save()) {
+        $model = new static ($attributes);
+        if ($model->save($runValidation)) {
             return $model;
         }
         return false;
