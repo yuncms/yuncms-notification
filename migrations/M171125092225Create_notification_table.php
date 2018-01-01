@@ -25,7 +25,7 @@ class M171125092225Create_notification_table extends Migration
             'refer_model' => $this->string()->comment('Refer Model'),
             'refer_model_id' => $this->integer()->comment('Refer Model Id'),
             'content' => $this->string()->comment('Content'),
-            'status' => $this->integer(2)->comment('Status'),
+            'status' => $this->smallInteger(1)->comment('Status'),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
         ], $tableOptions);
 
