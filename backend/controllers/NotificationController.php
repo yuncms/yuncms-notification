@@ -21,33 +21,6 @@ use yuncms\notification\models\Notification;
  */
 class NotificationController extends Controller
 {
-    /** @inheritdoc */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'read-all' => ['post'],
-                ],
-            ],
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'read-all'],
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['unread-notifications'],
-                        'roles' => ['@', '?']
-                    ],
-                ],
-            ],
-        ];
-    }
 
     public function actions()
     {
