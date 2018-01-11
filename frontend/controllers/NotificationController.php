@@ -76,6 +76,8 @@ class NotificationController extends Controller
     /**
      * 未读通知数目
      * @return array
+     * @throws \Exception
+     * @throws \Throwable
      */
     public function actionUnreadNotifications()
     {

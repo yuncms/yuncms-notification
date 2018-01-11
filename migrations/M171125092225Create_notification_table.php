@@ -16,7 +16,7 @@ class M171125092225Create_notification_table extends Migration
         }
 
         $this->createTable('{{%notification}}', [
-            'id' => $this->primaryKey()->unsigned()->comment('Id'),
+            'id' => $this->bigPrimaryKey()->unsigned()->comment('Id'),
             'user_id' => $this->integer()->unsigned()->comment('User Id'),
             'to_user_id' => $this->integer()->unsigned()->comment('To User Id'),
             'type' => $this->string()->comment('type'),
@@ -25,7 +25,7 @@ class M171125092225Create_notification_table extends Migration
             'refer_model' => $this->string()->comment('Refer Model'),
             'refer_model_id' => $this->integer()->comment('Refer Model Id'),
             'content' => $this->string()->comment('Content'),
-            'status' => $this->integer(2)->comment('Status'),
+            'status' => $this->smallInteger(1)->comment('Status'),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
         ], $tableOptions);
 

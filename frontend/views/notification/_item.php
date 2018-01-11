@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yuncms\notification\models\Notification;
 
+/** @var Notification $model */
 /** @var string $typeText */
 $typeText = $model->typeText;
 
