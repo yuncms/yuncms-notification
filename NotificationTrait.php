@@ -38,7 +38,6 @@ trait NotificationTrait
         return Yii::$app->getModule('notification');
     }
 
-
     /**
      * 给发送用户通知
      * @param int $fromUserId
@@ -60,6 +59,7 @@ trait NotificationTrait
             $notify = Notification::create([
                 'user_id' => $fromUserId,
                 'to_user_id' => $toUserId,
+                'channel'=>'',
                 'type' => $type,
                 'subject' => strip_tags($subject),
                 'model_id' => $model_id,
