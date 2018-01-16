@@ -4,6 +4,7 @@ namespace yuncms\notification\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 use yuncms\user\models\User;
 
 /**
@@ -21,6 +22,11 @@ use yuncms\user\models\User;
  */
 class NotificationSettings extends ActiveRecord
 {
+    const ENABLED_MSG = 'msg';
+    const ENABLED_SMS = 'sms';
+    const ENABLED_EMAIL = 'email';
+    const ENABLED_APP = 'app';
+
     /**
      * @inheritdoc
      */
@@ -30,13 +36,31 @@ class NotificationSettings extends ActiveRecord
     }
 
     /**
+     * 定义行为
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at']
+                ],
+            ]
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'user_id', 'msg', 'email', 'sms', 'app'], 'integer'],
-            [['updated_at'], 'required'],
+            [['user_id'], 'integer'],
+            [['msg', 'email', 'sms', 'app'], 'boolean'],
+            [['msg', 'email', 'sms', 'app'], 'default', 'value' => true],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -63,6 +87,53 @@ class NotificationSettings extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getPrimaryKey($asArray = false)
+    {
+        return parent::getPrimaryKey($asArray);
+    }
+
+    /**
+     * 获取用户消息设置
+     * @param integer $user_id
+     * @return static
+     */
+    public static function getSettings($user_id)
+    {
+        if (($model = static::findOne(['user_id' => $user_id])) != null) {
+            return $model;
+        } else {
+            return static::create(['user_id' => $user_id]);
+        }
+    }
+
+    /**
+     * 设置用户通知设置
+     * @param integer $user_id
+     * @param array $settings
+     * @return bool
+     */
+    public static function setSettings($user_id, $settings)
+    {
+        $model = static::getSettings($user_id);
+        $model->setAttributes($settings);
+        return $model->save();
+    }
+
+    /**
+     * 快速创建实例
+     * @param array $attributes
+     * @param boolean $runValidation
+     * @return bool|NotificationSettings
+     */
+    public static function create(array $attributes, $runValidation = true)
+    {
+        $model = new static ($attributes);
+        if ($model->save($runValidation)) {
+            return $model;
+        }
+        return false;
     }
 
     /**

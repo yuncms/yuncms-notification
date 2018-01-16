@@ -61,6 +61,9 @@ class NotificationManager extends Component
     {
         parent::init();
         foreach ($this->targets as $name => $target) {
+            if (!isset($target['enabled'])) {
+                $target['enabled'] = !Yii::$app->user->isGuest;
+            }
             if (!$target instanceof Target) {
                 $this->targets[$name] = Yii::createObject($target);
             }

@@ -14,6 +14,12 @@ use yii\helpers\StringHelper;
 abstract class Target extends Component
 {
     /**
+     * @var array the messages that are retrieved from the logger so far by this log target.
+     * Please refer to [[Logger::messages]] for the details about the message structure.
+     */
+    public $messages = [];
+
+    /**
      * @var string target id.
      */
     private $_id;
@@ -138,6 +144,42 @@ abstract class Target extends Component
             return call_user_func($this->_enabled, $this);
         }
         return $this->_enabled;
+    }
+
+    /**
+     * Filters the given messages according to their categories.
+     * @param array $messages messages to be filtered.
+     * @param array $categories the message categories to filter by. If empty, it means all categories are allowed.
+     * @param array $except the message categories to exclude. If empty, it means all categories are allowed.
+     * @return array the filtered messages.
+     */
+    public static function filterMessages($messages, $categories = [], $except = [])
+    {
+        foreach ($messages as $i => $message) {
+            $matched = empty($categories);
+            foreach ($categories as $category) {
+                if ($message[2] === $category || !empty($category) && substr_compare($category, '*', -1, 1) === 0 && strpos($message[2], rtrim($category, '*')) === 0) {
+                    $matched = true;
+                    break;
+                }
+            }
+
+            if ($matched) {
+                foreach ($except as $category) {
+                    $prefix = rtrim($category, '*');
+                    if (($message[2] === $category || $prefix !== $category) && strpos($message[2], $prefix) === 0) {
+                        $matched = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!$matched) {
+                unset($messages[$i]);
+            }
+        }
+
+        return $messages;
     }
 
     /**

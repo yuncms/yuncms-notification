@@ -18,7 +18,7 @@ class WechatTarget extends Target
      * Exports notification [[messages]] to a specific destination.
      * Child classes must implement this method.
      */
-    public function export()
+    public function export($messages)
     {
         // TODO: Implement export() method.
     }
