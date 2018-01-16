@@ -140,4 +140,17 @@ class Notification extends ActiveRecord
     {
         return new NotificationQuery(get_called_class());
     }
+
+    /**
+     * 保存后执行操作
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($insert) {
+            Yii::$app->notification->dispatch($this->toArray());
+        }
+        return parent::afterSave($insert, $changedAttributes);
+    }
 }
