@@ -51,7 +51,7 @@ trait NotificationTrait
      * @param int $refer_id
      * @return bool
      */
-    public static function notify($fromUserId, $toUserId, $type, $subject = '', $model_id = 0, $content = '', $referType = '', $refer_id = 0)
+    public function notify($fromUserId, $toUserId, $type, $subject = '', $model_id = 0, $content = '', $referType = '', $refer_id = 0)
     {
         if ($fromUserId == $toUserId || ($toUser = User::findOne($toUserId)) == null) {
             return false;
