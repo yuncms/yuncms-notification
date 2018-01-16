@@ -13,7 +13,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
-use yuncms\notification\models\Notification;
+use yuncms\notification\frontend\models\Notification;
 
 /**
  * Class NotificationController

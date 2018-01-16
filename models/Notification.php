@@ -59,6 +59,7 @@ class Notification extends ActiveRecord
     public function rules()
     {
         return [
+            [['to_user_id'], 'required'],
             [['user_id', 'to_user_id', 'model_id', 'refer_model_id'], 'integer'],
             [['type', 'subject', 'refer_model', 'content'], 'string', 'max' => 255],
 
