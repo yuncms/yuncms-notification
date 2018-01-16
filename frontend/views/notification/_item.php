@@ -9,7 +9,7 @@ use yuncms\notification\models\Notification;
 $typeText = $model->typeText;
 
 if ($typeText == null) {
-    switch ($model->type) {
+    switch ($model->category) {
         case 'follow_xxx':
             $typeText = Yii::t('app', 'follow on your xxx');
             break;

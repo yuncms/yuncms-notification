@@ -17,7 +17,7 @@ class Notification extends \yuncms\notification\models\Notification
      */
     public function getTypeText()
     {
-        switch ($this->type) {
+        switch ($this->category) {
             case 'follow_user':
                 return Yii::t('notification', 'follow on you');
                 break;
