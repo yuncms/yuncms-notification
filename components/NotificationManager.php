@@ -72,14 +72,14 @@ class NotificationManager extends Component
 
     /**
      * Dispatches the notification messages to [[targets]].
-     * @param array $messages the notification messages
+     * @param array $message the notification messages
      */
-    public function dispatch($messages)
+    public function dispatch($message)
     {
         foreach ($this->targets as $target) {
             if ($target->enabled) {
                 try {
-                    $target->collect($messages);
+                    $target->collect($message);
                 } catch (\Exception $e) {
                     $target->enabled = false;
                 }

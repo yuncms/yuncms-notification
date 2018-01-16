@@ -12,10 +12,10 @@ use yuncms\user\models\User;
  *
  * @property int $user_id User Id
  * @property string $category Category
- * @property int $msg Msg
- * @property int $email Email
- * @property int $sms Sms
- * @property int $app App
+ * @property int $web WebTarget
+ * @property int $email EmailTarget
+ * @property int $sms SmsTarget
+ * @property int $app AppTarget
  * @property int $updated_at Updated At
  *
  * @property User $user
@@ -61,8 +61,8 @@ class NotificationSettings extends ActiveRecord
             [['category'], 'required'],
             [['user_id'], 'integer'],
             [['category'], 'string', 'max' => 200],
-            [['msg', 'email', 'sms', 'app'], 'boolean'],
-            [['msg', 'email', 'sms', 'app'], 'default', 'value' => true],
+            [['web', 'email', 'sms', 'app'], 'boolean'],
+            [['web', 'email', 'sms', 'app'], 'default', 'value' => true],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -75,10 +75,10 @@ class NotificationSettings extends ActiveRecord
         return [
             'id' => Yii::t('notification', 'Id'),
             'user_id' => Yii::t('notification', 'User Id'),
-            'msg' => Yii::t('notification', 'Msg'),
-            'email' => Yii::t('notification', 'Email'),
-            'sms' => Yii::t('notification', 'Sms'),
-            'app' => Yii::t('notification', 'App'),
+            'web' => Yii::t('notification', 'WebTarget'),
+            'email' => Yii::t('notification', 'EmailTarget'),
+            'sms' => Yii::t('notification', 'SmsTarget'),
+            'app' => Yii::t('notification', 'AppTarget'),
             'updated_at' => Yii::t('notification', 'Updated At'),
         ];
     }

@@ -63,7 +63,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * 标记通知未已读
+     * 标记通知为已读
      * @return \yii\web\Response
      */
     public function actionReadAll()

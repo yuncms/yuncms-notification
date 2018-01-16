@@ -14,7 +14,7 @@ use yuncms\user\models\User;
  * @property string $id Id
  * @property int $user_id User Id
  * @property int $to_user_id To User Id
- * @property string $type type
+ * @property string $category Category
  * @property string $subject subject
  * @property int $model_id Model Id
  * @property string $refer_model Refer Model
@@ -42,6 +42,10 @@ class Notification extends ActiveRecord
         return '{{%notification}}';
     }
 
+    /**
+     * 行为
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -68,7 +72,7 @@ class Notification extends ActiveRecord
         return [
             [['to_user_id'], 'required'],
             [['user_id', 'to_user_id', 'model_id', 'refer_model_id'], 'integer'],
-            [['type', 'subject', 'refer_model', 'content'], 'string', 'max' => 255],
+            [['category', 'subject', 'refer_model', 'content'], 'string', 'max' => 255],
 
             ['status', 'default', 'value' => self::STATUS_UNREAD],
             ['status', 'in', 'range' => [self::STATUS_READ, self::STATUS_UNREAD]],
@@ -87,7 +91,7 @@ class Notification extends ActiveRecord
             'id' => Yii::t('notification', 'Id'),
             'user_id' => Yii::t('notification', 'User Id'),
             'to_user_id' => Yii::t('notification', 'To User Id'),
-            'type' => Yii::t('notification', 'type'),
+            'category' => Yii::t('notification', 'Category'),
             'subject' => Yii::t('notification', 'subject'),
             'model_id' => Yii::t('notification', 'Model Id'),
             'refer_model' => Yii::t('notification', 'Refer Model'),
@@ -146,6 +150,39 @@ class Notification extends ActiveRecord
     public static function find()
     {
         return new NotificationQuery(get_called_class());
+    }
+
+    /**
+     * 给发送用户通知
+     * @param int $toUserId 接收用户ID
+     * @param string $category 通知类别
+     * @param string $subject 通知标题
+     * @param int $model_id
+     * @param string $content
+     * @param string $referType
+     * @param int $refer_id
+     * @return bool
+     */
+    public static function notify($toUserId, $category, $subject = '', $model_id = 0, $content = '', $referType = '', $refer_id = 0)
+    {
+        if (($toUser = User::findOne($toUserId)) == null) {
+            return false;
+        }
+        try {
+            $notify = new static([
+                'to_user_id' => $toUserId,
+                'category' => $category,
+                'subject' => strip_tags($subject),
+                'model_id' => $model_id,
+                'content' => strip_tags($content),
+                'refer_model' => $referType,
+                'refer_model_id' => $refer_id,
+                'status' => static::STATUS_UNREAD
+            ]);
+            return $notify->save();
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

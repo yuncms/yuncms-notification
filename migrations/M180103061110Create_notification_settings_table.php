@@ -17,7 +17,7 @@ class M180103061110Create_notification_settings_table extends Migration
         $this->createTable('{{%notification_settings}}', [
             'user_id' => $this->integer()->unsigned()->notNull()->comment('User Id'),
             'category' => $this->string(200)->notNull()->comment('Category'),
-            'msg' => $this->boolean()->defaultValue(true)->comment('Msg'),
+            'web' => $this->boolean()->defaultValue(true)->comment('Web'),
             'email' => $this->boolean()->defaultValue(true)->comment('Email'),
             'sms' => $this->boolean()->defaultValue(true)->comment('Sms'),
             'app' => $this->boolean()->defaultValue(true)->comment('App'),
