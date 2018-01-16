@@ -3,6 +3,7 @@
 namespace yuncms\notification\models;
 
 use Yii;
+use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yuncms\user\models\User;
@@ -49,7 +50,13 @@ class Notification extends ActiveRecord
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at']
                 ],
-            ]
+            ],
+            'user' => [
+                'class' => 'yii\behaviors\BlameableBehavior',
+                'attributes' => [
+                    Model::EVENT_BEFORE_VALIDATE => 'user_id',
+                ],
+            ],
         ];
     }
 
