@@ -23,12 +23,12 @@ class M180103061110Create_notification_settings_table extends Migration
             'app' => $this->boolean()->defaultValue(true)->comment('App'),
             'updated_at' => $this->integer(10)->unsigned()->notNull()->comment('Updated At'),
         ], $tableOptions);
-        $this->addForeignKey('{{%test_fk_1}}', '{{%test}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('{{%notification_settings_fk_1}}', '{{%notification_settings}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
     {
-        $this->dropTable('{{%test}}');
+        $this->dropTable('{{%notification_settings}}');
     }
 
 

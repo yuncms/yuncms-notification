@@ -1,9 +1,4 @@
 <?php
-/**
- * @link http://www.tintsoft.com/
- * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
- * @license http://www.tintsoft.com/license/
- */
 
 namespace yuncms\notification\models;
 
@@ -13,19 +8,19 @@ use yii\behaviors\TimestampBehavior;
 use yuncms\user\models\User;
 
 /**
- * Notice model 通知模型
+ * This is the model class for table "{{%notification}}".
  *
- * @property integer $id
- * @property integer $user_id 发送方ID，系统消费为空
- * @property integer $to_user_id 接收方ID
- * @property string $type 通知类型代码
- * @property string $subject 资源标题
- * @property integer $model_id 资源ID
- * @property string $refer_model 引用模型名称
- * @property string $refer_model_id 引用模型ID
- * @property string $content 通知内容
- * @property integer $status 状态
- * @property integer $created_at 创建时间
+ * @property string $id Id
+ * @property int $user_id User Id
+ * @property int $to_user_id To User Id
+ * @property string $type type
+ * @property string $subject subject
+ * @property int $model_id Model Id
+ * @property string $refer_model Refer Model
+ * @property int $refer_model_id Refer Model Id
+ * @property string $content Content
+ * @property int $status Status
+ * @property int $created_at Created At
  *
  * @property User $user
  * @property User $toUser
@@ -46,10 +41,6 @@ class Notification extends ActiveRecord
         return '{{%notification}}';
     }
 
-    /**
-     * 定义行为
-     * @return array
-     */
     public function behaviors()
     {
         return [
@@ -68,14 +59,39 @@ class Notification extends ActiveRecord
     public function rules()
     {
         return [
+            [['user_id', 'to_user_id', 'model_id', 'refer_model_id'], 'integer'],
+            [['type', 'subject', 'refer_model', 'content'], 'string', 'max' => 255],
+
             ['status', 'default', 'value' => self::STATUS_UNREAD],
             ['status', 'in', 'range' => [self::STATUS_READ, self::STATUS_UNREAD]],
+
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['to_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['to_user_id' => 'id']],
         ];
     }
 
     /**
-     * 发送者用户实例
-     * @return \yii\db\ActiveQueryInterface
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('notification', 'Id'),
+            'user_id' => Yii::t('notification', 'User Id'),
+            'to_user_id' => Yii::t('notification', 'To User Id'),
+            'type' => Yii::t('notification', 'type'),
+            'subject' => Yii::t('notification', 'subject'),
+            'model_id' => Yii::t('notification', 'Model Id'),
+            'refer_model' => Yii::t('notification', 'Refer Model'),
+            'refer_model_id' => Yii::t('notification', 'Refer Model Id'),
+            'content' => Yii::t('notification', 'Content'),
+            'status' => Yii::t('notification', 'Status'),
+            'created_at' => Yii::t('notification', 'Created At'),
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
@@ -83,7 +99,6 @@ class Notification extends ActiveRecord
     }
 
     /**
-     * 接受者用户实例
      * @return \yii\db\ActiveQuery
      */
     public function getToUser()
@@ -114,5 +129,14 @@ class Notification extends ActiveRecord
             return $model;
         }
         return false;
+    }
+
+    /**
+     * @inheritdoc
+     * @return NotificationQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new NotificationQuery(get_called_class());
     }
 }
