@@ -8,14 +8,14 @@
 namespace yuncms\notification;
 
 use Yii;
-use yii\helpers\FileHelper;
 use yuncms\user\models\User;
+use yuncms\notification\models\Notification;
 
 /**
  * Class UserTrait
  *
  * @property Module $module
- * @package yuncms\user
+ * @package yuncms\notification
  */
 trait NotificationTrait
 {
@@ -53,15 +53,9 @@ trait NotificationTrait
      */
     public static function notify($fromUserId, $toUserId, $type, $subject = '', $model_id = 0, $content = '', $referType = '', $refer_id = 0)
     {
-        /*不能自己给自己发通知*/
-        if ($fromUserId == $toUserId) {
+        if ($fromUserId == $toUserId || ($toUser = User::findOne($toUserId)) == null) {
             return false;
         }
-        $toUser = User::findOne($toUserId);
-        if (!$toUser) {
-            return false;
-        }
-
         try {
             $notify = Notification::create([
                 'user_id' => $fromUserId,
