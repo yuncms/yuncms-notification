@@ -16,14 +16,16 @@ class M180103061110Create_notification_settings_table extends Migration
         }
         $this->createTable('{{%notification_settings}}', [
             'user_id' => $this->integer()->unsigned()->notNull()->comment('User Id'),
+            'category' => $this->string(200)->notNull()->comment('Category'),
             'msg' => $this->boolean()->defaultValue(true)->comment('Msg'),
             'email' => $this->boolean()->defaultValue(true)->comment('Email'),
             'sms' => $this->boolean()->defaultValue(true)->comment('Sms'),
             'app' => $this->boolean()->defaultValue(true)->comment('App'),
             'updated_at' => $this->integer(10)->unsigned()->notNull()->comment('Updated At'),
         ], $tableOptions);
-        $this->addPrimaryKey('{{%notification_settings}}', '{{%notification_settings}}', 'user_id');
-        $this->addForeignKey('{{%notification_settings_fk_1}}', '{{%notification_settings}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addPrimaryKey('notification_settings_pk', '{{%notification_settings}}', 'user_id');
+        $this->createIndex('notification_settings_index', '{{%notification_settings}}', ['user_id', 'category'], true);
+        $this->addForeignKey('notification_settings_fk_1', '{{%notification_settings}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()

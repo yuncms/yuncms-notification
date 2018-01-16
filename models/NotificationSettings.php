@@ -10,8 +10,8 @@ use yuncms\user\models\User;
 /**
  * This is the model class for table "{{%notification_settings}}".
  *
- * @property string $id Id
  * @property int $user_id User Id
+ * @property string $category Category
  * @property int $msg Msg
  * @property int $email Email
  * @property int $sms Sms
@@ -58,7 +58,9 @@ class NotificationSettings extends ActiveRecord
     public function rules()
     {
         return [
+            [['category'], 'required'],
             [['user_id'], 'integer'],
+            [['category'], 'string', 'max' => 200],
             [['msg', 'email', 'sms', 'app'], 'boolean'],
             [['msg', 'email', 'sms', 'app'], 'default', 'value' => true],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -97,26 +99,28 @@ class NotificationSettings extends ActiveRecord
     /**
      * 获取用户消息设置
      * @param integer $user_id
+     * @param string $category
      * @return static
      */
-    public static function getSettings($user_id)
+    public static function getSettings($user_id, $category)
     {
-        if (($model = static::findOne(['user_id' => $user_id])) != null) {
+        if (($model = static::findOne(['user_id' => $user_id, 'category' => $category])) != null) {
             return $model;
         } else {
-            return static::create(['user_id' => $user_id]);
+            return static::create(['user_id' => $user_id, 'category' => $category]);
         }
     }
 
     /**
      * 设置用户通知设置
      * @param integer $user_id
+     * @param string $category
      * @param array $settings
      * @return bool
      */
-    public static function setSettings($user_id, $settings)
+    public static function setSettings($user_id,$category, $settings)
     {
-        $model = static::getSettings($user_id);
+        $model = static::getSettings($user_id, $category);
         $model->setAttributes($settings);
         return $model->save();
     }
