@@ -109,12 +109,6 @@ abstract class Target extends Component
     }
 
     /**
-     * Exports notification [[messages]] to a specific destination.
-     * Child classes must implement this method.
-     */
-    abstract public function export();
-
-    /**
      * Sets a value indicating whether this notification target is enabled.
      * @param bool|callable $value a boolean value or a callable to obtain the value from.
      *
@@ -145,4 +139,11 @@ abstract class Target extends Component
         }
         return $this->_enabled;
     }
+
+    /**
+     * Exports notification [[messages]] to a specific destination.
+     * Child classes must implement this method.
+     * @param array $messages notification messages to be processed.
+     */
+    abstract public function export($messages);
 }
