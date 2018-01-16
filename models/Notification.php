@@ -20,7 +20,7 @@ use yuncms\user\models\User;
  * @property integer $to_user_id 接收方ID
  * @property string $type 通知类型代码
  * @property string $subject 资源标题
- * @property int $model_id 资源ID
+ * @property integer $model_id 资源ID
  * @property string $refer_model 引用模型名称
  * @property string $refer_model_id 引用模型ID
  * @property string $content 通知内容
@@ -34,6 +34,7 @@ class Notification extends ActiveRecord
 {
     //未读
     const STATUS_UNREAD = 0b0;
+
     //已读
     const STATUS_READ = 0b1;
 
