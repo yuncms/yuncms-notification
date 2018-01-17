@@ -168,7 +168,7 @@ class Notification extends ActiveRecord
         if (($toUser = User::findOne($toUserId)) == null) {
             return false;
         }
-        try {
+        //try {
             $notify = new static([
                 'to_user_id' => $toUserId,
                 'category' => $category,
@@ -180,9 +180,9 @@ class Notification extends ActiveRecord
                 'status' => static::STATUS_UNREAD
             ]);
             return $notify->save();
-        } catch (\Exception $e) {
-            return false;
-        }
+        //} catch (\Exception $e) {
+        //    return false;
+        //}
     }
 
     /**
