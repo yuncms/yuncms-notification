@@ -18,21 +18,17 @@ class M171125092225Create_notification_table extends Migration
         $this->createTable('{{%notification}}', [
             'id' => $this->bigPrimaryKey()->unsigned()->comment('Id'),
             'user_id' => $this->integer()->unsigned()->comment('User Id'),
-            'to_user_id' => $this->integer()->unsigned()->comment('To User Id'),
             'channel' => $this->string(20)->comment('Channel'),
-            'category' => $this->string()->comment('category'),
-            'subject' => $this->string()->comment('subject'),
-            'model_id' => $this->integer()->comment('Model Id'),
-            'refer_model' => $this->string()->comment('Refer Model'),
-            'refer_model_id' => $this->integer()->comment('Refer Model Id'),
-            'content' => $this->string()->comment('Content'),
+            'class' => $this->string(64)->notNull(),
+            'category' => $this->string(32)->comment('category'),
+            'message' => $this->string(255)->comment('Message'),
+            'route' => $this->string(255)->comment('Route'),
             'status' => $this->smallInteger(1)->comment('Status'),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
         ], $tableOptions);
 
-        $this->createIndex('notification_index', '{{%notification}}', ['to_user_id', 'status']);
+        $this->createIndex('notification_index', '{{%notification}}', ['user_id', 'status']);
         $this->addForeignKey('{{%notification_fk_1}}', '{{%notification}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
-        $this->addForeignKey('{{%notification_fk_2}}', '{{%notification}}', 'to_user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
     public function safeDown()
