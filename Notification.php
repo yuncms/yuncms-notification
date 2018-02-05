@@ -13,7 +13,7 @@ use yii\base\BaseObject;
 /**
  * This is the base class for a notification.
  *
- * @property string $category
+ * @property string $action
  * @property integer $userId
  * @property array $data
  */
