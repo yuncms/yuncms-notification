@@ -70,15 +70,16 @@ class Notification extends ActiveRecord
     public function rules()
     {
         return [
-            [['to_user_id'], 'required'],
-            [['user_id', 'to_user_id', 'model_id', 'refer_model_id'], 'integer'],
-            [['category', 'subject', 'refer_model', 'content'], 'string', 'max' => 255],
+            [['user_id'], 'integer'],
+            [['class',], 'string', 'max' => 64],
+            [['channel'], 'string', 'max' => 20],
+            [['category',], 'string', 'max' => 32],
+            [['category', 'message', 'route'], 'string', 'max' => 255],
 
             ['status', 'default', 'value' => self::STATUS_UNREAD],
             ['status', 'in', 'range' => [self::STATUS_READ, self::STATUS_UNREAD]],
 
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['to_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['to_user_id' => 'id']],
         ];
     }
 
@@ -111,21 +112,14 @@ class Notification extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getToUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'to_user_id']);
-    }
-
-    /**
      * 设置指定用户为全部已读
-     * @param int $toUserId
+     * @param int $userId
+     * @param string $channel 渠道
      * @return int
      */
-    public static function setReadAll($toUserId)
+    public static function setReadAll($userId, $channel)
     {
-        return self::updateAll(['status' => self::STATUS_READ], ['to_user_id' => $toUserId]);
+        return self::updateAll(['status' => self::STATUS_READ], ['user_id' => $userId, 'channel' => $channel]);
     }
 
     /**
@@ -150,38 +144,5 @@ class Notification extends ActiveRecord
     public static function find()
     {
         return new NotificationQuery(get_called_class());
-    }
-
-    /**
-     * 给发送用户通知
-     * @param int $toUserId 接收用户ID
-     * @param string $category 通知类别
-     * @param string $subject 通知标题
-     * @param int $model_id
-     * @param string $content
-     * @param string $referType
-     * @param int $refer_id
-     * @return bool
-     */
-    public static function notify($toUserId, $category, $subject = '', $model_id = 0, $content = '', $referType = '', $refer_id = 0)
-    {
-        if (($toUser = User::findOne($toUserId)) == null) {
-            return false;
-        }
-        //try {
-            $notify = new static([
-                'to_user_id' => $toUserId,
-                'category' => $category,
-                'subject' => strip_tags($subject),
-                'model_id' => $model_id,
-                'content' => strip_tags($content),
-                'refer_model' => $referType,
-                'refer_model_id' => $refer_id,
-                'status' => static::STATUS_UNREAD
-            ]);
-            return $notify->save();
-        //} catch (\Exception $e) {
-        //    return false;
-        //}
     }
 }

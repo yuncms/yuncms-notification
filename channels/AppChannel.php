@@ -45,6 +45,7 @@ class AppChannel extends Channel
             'targetValue' => $notification->userId,
             'title' => (string)$notification->getTitle(),
             'body' => (string)$notification->getDescription(),
+            'extParameters' => $notification->getData()
         ]);
     }
 }

@@ -29,25 +29,16 @@ class ScreenChannel extends Channel
      */
     public function send(Notification $notification)
     {
+        $className = $notification->className();
         NotificationModel::create([
-            'to_user_id' => $notification->getUserId(),
+            'user_id' => $notification->getUserId(),
+            'channel' => 'screen',
+            'class' => strtolower(substr($className, strrpos($className, '\\')+1, -12)),
             'category' => $notification->category,
-            'subject' => (string)$notification->getTitle(),
-            'content' => (string)$notification->getDescription(),
-            'status' => NotificationModel::STATUS_UNREAD
+            'message' => (string)$notification->getTitle(),
+            'route' => serialize($notification->getRoute()),
+            'status' => NotificationModel::STATUS_UNREAD,
         ]);
-
-//        $db = Yii::$app->getDb();
-//        $className = $notification->className();
-//        $currTime = time();
-//        $db->createCommand()->insert('notifications', [
-//            'class' => strtolower(substr($className, strrpos($className, '\\')+1, -12)),
-//            'key' => $notification->key,
-//            'message' => (string)$notification->getTitle(),
-//            'route' => serialize($notification->getRoute()),
-//            'user_id' => $notification->userId,
-//            'created_at' => $currTime,
-//        ])->execute();
     }
 
 }
