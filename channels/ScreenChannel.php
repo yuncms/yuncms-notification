@@ -32,9 +32,8 @@ class ScreenChannel extends Channel
         $className = $notification->className();
         NotificationModel::create([
             'user_id' => $notification->getUserId(),
-            'channel' => 'screen',
-            'class' => strtolower(substr($className, strrpos($className, '\\')+1, -12)),
-            'category' => $notification->category,
+            'category' => strtolower(substr($className, strrpos($className, '\\') + 1, -12)),
+            'action' => $notification->action,
             'message' => (string)$notification->getTitle(),
             'route' => serialize($notification->getRoute()),
             'status' => NotificationModel::STATUS_UNREAD,

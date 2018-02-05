@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 use yuncms\user\models\User;
 
 /**
@@ -56,7 +57,7 @@ class Notification extends ActiveRecord
                 ],
             ],
             'user' => [
-                'class' => 'yii\behaviors\BlameableBehavior',
+                'class' => BlameableBehavior::className(),
                 'attributes' => [
                     Model::EVENT_BEFORE_VALIDATE => 'user_id',
                 ],
@@ -71,14 +72,11 @@ class Notification extends ActiveRecord
     {
         return [
             [['user_id'], 'integer'],
-            [['class',], 'string', 'max' => 64],
-            [['channel'], 'string', 'max' => 20],
-            [['category',], 'string', 'max' => 32],
-            [['category', 'message', 'route'], 'string', 'max' => 255],
-
+            [['category',], 'string', 'max' => 64],
+            [['action',], 'string', 'max' => 32],
+            [['message', 'route'], 'string', 'max' => 255],
             ['status', 'default', 'value' => self::STATUS_UNREAD],
             ['status', 'in', 'range' => [self::STATUS_READ, self::STATUS_UNREAD]],
-
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -91,13 +89,10 @@ class Notification extends ActiveRecord
         return [
             'id' => Yii::t('notification', 'Id'),
             'user_id' => Yii::t('notification', 'User Id'),
-            'to_user_id' => Yii::t('notification', 'To User Id'),
             'category' => Yii::t('notification', 'Category'),
-            'subject' => Yii::t('notification', 'subject'),
-            'model_id' => Yii::t('notification', 'Model Id'),
-            'refer_model' => Yii::t('notification', 'Refer Model'),
-            'refer_model_id' => Yii::t('notification', 'Refer Model Id'),
-            'content' => Yii::t('notification', 'Content'),
+            'action' => Yii::t('notification', 'Action'),
+            'message' => Yii::t('notification', 'Message'),
+            'route' => Yii::t('notification', 'Route'),
             'status' => Yii::t('notification', 'Status'),
             'created_at' => Yii::t('notification', 'Created At'),
         ];
@@ -117,9 +112,9 @@ class Notification extends ActiveRecord
      * @param string $channel 渠道
      * @return int
      */
-    public static function setReadAll($userId, $channel)
+    public static function setReadAll($userId)
     {
-        return self::updateAll(['status' => self::STATUS_READ], ['user_id' => $userId, 'channel' => $channel]);
+        return self::updateAll(['status' => self::STATUS_READ], ['user_id' => $userId]);
     }
 
     /**

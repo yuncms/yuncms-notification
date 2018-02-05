@@ -18,9 +18,8 @@ class M171125092225Create_notification_table extends Migration
         $this->createTable('{{%notification}}', [
             'id' => $this->bigPrimaryKey()->unsigned()->comment('Id'),
             'user_id' => $this->integer()->unsigned()->comment('User Id'),
-            'channel' => $this->string(20)->comment('Channel'),
-            'class' => $this->string(64)->notNull(),
-            'category' => $this->string(32)->comment('category'),
+            'category' => $this->string(64)->notNull()->comment('Category'),
+            'action' => $this->string(32)->comment('Action'),
             'message' => $this->string(255)->comment('Message'),
             'route' => $this->string(255)->comment('Route'),
             'status' => $this->smallInteger(1)->comment('Status'),

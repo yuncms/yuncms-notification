@@ -55,7 +55,7 @@ class NotificationController extends Controller
      */
     public function actionIndex()
     {
-        $query = Notification::find()->where(['user_id' => Yii::$app->user->id, 'channel' => 'screen'])->orderBy(['id' => SORT_DESC]);
+        $query = Notification::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['id' => SORT_DESC]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -68,7 +68,7 @@ class NotificationController extends Controller
      */
     public function actionReadAll()
     {
-        Notification::setReadAll(Yii::$app->user->id, 'screen');
+        Notification::setReadAll(Yii::$app->user->id);
         Yii::$app->session->setFlash('success', Yii::t('notification', 'Successful operation.'));
         return $this->redirect(['index']);
     }
@@ -79,7 +79,7 @@ class NotificationController extends Controller
      */
     public function actionDeleteAll()
     {
-        Notification::deleteAll(['user_id' => Yii::$app->user->id, 'channel' => 'screen']);
+        Notification::deleteAll(['user_id' => Yii::$app->user->id]);
         Yii::$app->getSession()->setFlash('success', Yii::t('notification', 'All notifications have been deleted.'));
         return $this->redirect(['index']);
     }
@@ -97,7 +97,7 @@ class NotificationController extends Controller
             $total = 0;
         } else {
             $total = Notification::getDb()->cache(function ($db) {
-                return Notification::find()->where(['user_id' => Yii::$app->user->id, 'channel' => 'screen', 'status' => Notification::STATUS_UNREAD])->count();
+                return Notification::find()->where(['user_id' => Yii::$app->user->id, 'status' => Notification::STATUS_UNREAD])->count();
             }, 60);
         }
         return ['total' => $total];

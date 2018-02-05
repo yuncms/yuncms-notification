@@ -22,7 +22,7 @@ abstract class Notification extends BaseObject
     /**
      * @var string
      */
-    public $category;
+    public $action;
 
     /**
      * @var integer
@@ -37,14 +37,14 @@ abstract class Notification extends BaseObject
     /**
      * Create an instance
      *
-     * @param string $category
+     * @param string $action
      * @param array $params notification properties
      * @return static the newly created Notification
      * @throws \Exception
      */
-    public static function create($category, $params = [])
+    public static function create($action, $params = [])
     {
-        $params['category'] = $category;
+        $params['action'] = $action;
         return new static($params);
     }
 
