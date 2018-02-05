@@ -36,7 +36,7 @@ class NotificationController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'read-all'],
+                        'actions' => ['index', 'read-all', 'delete-all'],
                         'roles' => ['@'],
                     ],
                     [
@@ -64,12 +64,23 @@ class NotificationController extends Controller
 
     /**
      * 标记通知为已读
-     * @return \yii\web\Response
+     * @return Response
      */
     public function actionReadAll()
     {
         Notification::setReadAll(Yii::$app->user->id, 'screen');
         Yii::$app->session->setFlash('success', Yii::t('notification', 'Successful operation.'));
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * 删除所有通知
+     * @return Response
+     */
+    public function actionDeleteAll()
+    {
+        Notification::deleteAll(['user_id' => Yii::$app->user->id, 'channel' => 'screen']);
+        Yii::$app->getSession()->setFlash('success', Yii::t('notification', 'All notifications have been deleted.'));
         return $this->redirect(['index']);
     }
 
