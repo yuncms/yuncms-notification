@@ -26,7 +26,7 @@ class M171125092225Create_notification_table extends Migration
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
         ], $tableOptions);
 
-        $this->createIndex('notification_index', '{{%notification}}', ['user_id', 'channel', 'status']);
+        $this->createIndex('notification_index', '{{%notification}}', ['user_id', 'status']);
         $this->addForeignKey('{{%notification_fk_1}}', '{{%notification}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 
