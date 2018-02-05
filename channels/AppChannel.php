@@ -8,8 +8,6 @@
 namespace yuncms\notification\channels;
 
 use Yii;
-use yii\base\InvalidConfigException;
-use yii\di\Instance;
 use yuncms\notification\Channel;
 use yuncms\notification\Notification;
 use xutl\aliyun\jobs\PushNoticeToMobile;
