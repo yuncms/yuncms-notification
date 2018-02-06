@@ -36,7 +36,6 @@ class ScreenChannel extends Channel
             'action' => $notification->action,
             'message' => (string)$notification->getTitle(),
             'route' => serialize($notification->getRoute()),
-            'status' => NotificationModel::STATUS_UNREAD,
         ]);
     }
 

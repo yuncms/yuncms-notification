@@ -17,8 +17,9 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Mark as read' => '标记为已读',
     'All marked as read' => '全部标记为已读',
-    'Read' => '',
+    'Read' => '已读',
     'All notifications have been deleted.' => '所有通知已被删除。',
     'All notifications have been marked as read.' => '所有通知已被标记为已读。',
     'Notifications' => '通知提醒',

@@ -13,5 +13,5 @@ use yuncms\notification\Module;
         <span class="message"><?= $model->message; ?></span>
     </a>
     <small class="time-ago"><?= Yii::$app->formatter->asRelativeTime($model->created_at); ?></small>
-    <span class="mark-read" data-toggle="tooltip" title="<? if ($model->isRead): ?><?= Module::t('frontend', 'Read') ?><? else: ?><?= Yii::t('notification', 'Mark as read') ?><? endif; ?>"></span>
+    <span class="mark-read" data-toggle="tooltip" title="<? if ($model->isRead): ?><?= Module::t('frontend', 'Read') ?><? else: ?><?= Module::t('frontend', 'Mark as read') ?><? endif; ?>"></span>
 </li>

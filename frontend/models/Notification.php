@@ -47,6 +47,6 @@ class Notification extends \yuncms\notification\models\Notification
      */
     public static function getCountUnseen()
     {
-        return static::find()->andWhere(['read' => true])->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->count();
+        return static::find()->andWhere(['read' => false])->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->count();
     }
 }

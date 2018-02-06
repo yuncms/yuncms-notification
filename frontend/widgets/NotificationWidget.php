@@ -66,10 +66,12 @@ class NotificationWidget extends Widget
 
         $html .= Html::tag('span', '', ['class' => 'fa fa-bell-o fa-lg']);
 
-        if ($count > 0) {
-            if ($count > 99) $count = '99+';
-            $html .= Html::tag('span', $count, ['id' => 'notifications-count', 'class' => 'label label-danger']);
+        $countOptions = ['id' => 'notifications-count', 'class' => 'label label-danger', 'data-count' => $count];
+
+        if ($count == 0) {
+            $countOptions['style'] = 'display: none;';
         }
+        $html .= Html::tag('span', $count, $countOptions);
 
         $html .= Html::endTag('a');
 

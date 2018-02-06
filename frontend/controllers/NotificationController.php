@@ -85,6 +85,17 @@ class NotificationController extends Controller
     }
 
     /**
+     * 标记为已读
+     * @param int $id
+     * @return Response
+     */
+    public function actionRead($id)
+    {
+        Notification::updateAll(['read' => true], ['id' => $id]);
+        return $this->ajaxResponse(1);
+    }
+
+    /**
      * 标记通知为已读
      * @return Response
      */
@@ -128,12 +139,11 @@ class NotificationController extends Controller
             $notify = $notification->toArray();
             $notify['url'] = $notification->url;
             $notify['relativeTime'] = $notification->relativeTime;
-
             $notifies[] = $notify;
         }
 
         if (!empty($seen)) {
-            Notification::updateAll(['seen' => 1], ['in', 'id' => $seen]);
+            Notification::updateAll(['seen' => 1], ['in', 'id', $seen]);
         }
 
         return $notifies;
