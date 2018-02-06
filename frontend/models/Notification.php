@@ -30,4 +30,13 @@ class Notification extends \yuncms\notification\models\Notification
         $route = $this->getRoute();
         return !empty($route) ? Url::to($route) : '';
     }
+
+    /**
+     * 获取未读通知数量
+     * @return int|string
+     */
+    public static function getCountUnseen()
+    {
+        return static::find()->andWhere(['status' => static::STATUS_UNREAD])->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->count();
+    }
 }

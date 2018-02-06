@@ -62,7 +62,7 @@ class NotificationWidget extends Widget
         $html = Html::beginTag('li', $this->options);
         $html .= Html::beginTag('a', ['href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
         $html .= Html::tag('span', '', ['class' => 'fa fa-bell-o fa-lg']);
-        $count = self::getCountUnseen();
+        $count = Notification::getCountUnseen();
         $countOptions = ['class' => 'badge badge-warning navbar-badge notifications-count', 'data-count' => $count];
         if (!$count) {
             $countOptions['style'] = 'display: none;';
@@ -106,14 +106,4 @@ class NotificationWidget extends Widget
         NotificationAsset::register($view);
         $view->registerJs($js);
     }
-
-    /**
-     * 获取未读消息数量
-     * @return int|string
-     */
-    public static function getCountUnseen()
-    {
-        return Notification::find()->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->count();
-    }
-
 }

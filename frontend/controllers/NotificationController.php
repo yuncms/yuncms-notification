@@ -29,6 +29,7 @@ class NotificationController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'read-all' => ['post'],
+                    'delete-all' => ['post'],
                 ],
             ],
             'access' => [
@@ -36,7 +37,7 @@ class NotificationController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'read-all', 'delete-all'],
+                        'actions' => ['index', 'list', 'read-all', 'delete-all'],
                         'roles' => ['@'],
                     ],
                     [
@@ -63,13 +64,34 @@ class NotificationController extends Controller
     }
 
     /**
+     * AJAX获取通知列表
+     */
+    public function actionList()
+    {
+        $list = Notification::find()->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->limit(10)->orderBy(['id' => SORT_DESC])->all();
+        $this->ajaxResponse(['list' => $list]);
+    }
+
+    /**
+     * 获取未读通知总数
+     */
+    public function actionCount()
+    {
+        $count = Notification::getCountUnseen();
+        $this->ajaxResponse(['count' => $count]);
+    }
+
+    /**
      * 标记通知为已读
      * @return Response
      */
     public function actionReadAll()
     {
         Notification::setReadAll(Yii::$app->user->id);
-        Yii::$app->session->setFlash('success', Yii::t('notification', 'Successful operation.'));
+        if (Yii::$app->getRequest()->getIsAjax()) {
+            return $this->ajaxResponse(1);
+        }
+        Yii::$app->getSession()->setFlash('success', Yii::t('notification', 'All notifications have been marked as read.'));
         return $this->redirect(['index']);
     }
 
@@ -80,26 +102,30 @@ class NotificationController extends Controller
     public function actionDeleteAll()
     {
         Notification::deleteAll(['user_id' => Yii::$app->user->id]);
+        if (Yii::$app->getRequest()->getIsAjax()) {
+            return $this->ajaxResponse(1);
+        }
         Yii::$app->getSession()->setFlash('success', Yii::t('notification', 'All notifications have been deleted.'));
         return $this->redirect(['index']);
     }
 
     /**
-     * 未读通知数目
-     * @return array
-     * @throws \Exception
-     * @throws \Throwable
+     * AJAX响应
+     * @param array $data
+     * @return Response
      */
-    public function actionUnreadNotifications()
+    public function ajaxResponse($data = [])
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        if (Yii::$app->user->isGuest) {
-            $total = 0;
-        } else {
-            $total = Notification::getDb()->cache(function ($db) {
-                return Notification::find()->where(['user_id' => Yii::$app->user->id, 'status' => Notification::STATUS_UNREAD])->count();
-            }, 60);
+        if (is_string($data)) {
+            $data = ['html' => $data];
         }
-        return ['total' => $total];
+        $flashes = Yii::$app->getSession()->getAllFlashes(true);
+        foreach ($flashes as $type => $message) {
+            $data['notifications'][] = [
+                'type' => $type,
+                'message' => $message,
+            ];
+        }
+        return $this->asJson($data);
     }
 }
