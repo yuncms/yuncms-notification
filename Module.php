@@ -30,12 +30,22 @@ class Module extends \yii\base\Module
      */
     public function registerTranslations()
     {
-        if (!isset(Yii::$app->i18n->translations['notification*'])) {
-            Yii::$app->i18n->translations['notification*'] = [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'sourceLanguage' => 'en-US',
-                'basePath' => __DIR__ . '/messages',
-            ];
-        }
+        Yii::$app->i18n->translations['modules/notification/*'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'sourceLanguage' => 'en-US',
+            'basePath' => '@yuncms/notification/messages',
+            'fileMap' => [
+                'modules/notification/validation' => 'validation.php',
+                'modules/notification/form' => 'form.php',
+                'modules/notification/backend' => 'backend.php',
+                'modules/notification/frontend' => 'frontend.php',
+                'modules/notification/model' => 'frontend.php',
+            ],
+        ];
+    }
+
+    public static function t($category, $message, $params = [], $language = null)
+    {
+        return Yii::t('modules/notification/' . $category, $message, $params, $language);
     }
 }

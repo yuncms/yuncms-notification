@@ -1,18 +1,13 @@
-/**
- * 获取未读通知数
- * @param callback
- */
-function getUnreadNotifications(callback) {
-    callback = callback || jQuery.noop;
-    jQuery.getJSON("/notification/notification/unread-notifications", function (result) {
-        return callback(result.total);
-    });
-}
+window.yii.notification = (function ($) {
+    var pub = {
+        isActive: true,
+        init: function () {
+            console.info('init notifications.');
 
-
-/**
- * notifications plugin
- */
+        }
+    };
+    return pub;
+})(window.jQuery);
 
 var Notifications = (function (opts) {
     if (!opts.id) {

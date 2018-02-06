@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link http://www.tintsoft.com/
+ * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
+ * @license http://www.tintsoft.com/license/
+ */
 
 namespace yuncms\notification\models;
 
@@ -7,23 +12,23 @@ use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
+use yuncms\notification\Module;
 use yuncms\user\models\User;
 
 /**
  * This is the model class for table "{{%notification}}".
  *
  * @property string $id Id
- * @property int $user_id User Id
- * @property string $category Category
- * @property string $action Action
- * @property string $message Message
- * @property string $route Route
- * @property int $status Status
- * @property int $created_at Created At
+ * @property int $user_id 用户ID
+ * @property string $category 类目
+ * @property string $action 操作
+ * @property string $message 消息内容
+ * @property string $route 路由
+ * @property int $status 状态
+ * @property int $created_at 创建时间
  *
  * @property-read bool $isRead 是否已读
- * @property User $user
- * @property User $toUser
+ * @property User $user 用户实例
  */
 class Notification extends ActiveRecord
 {
@@ -85,14 +90,14 @@ class Notification extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('notification', 'Id'),
-            'user_id' => Yii::t('notification', 'User Id'),
-            'category' => Yii::t('notification', 'Category'),
-            'action' => Yii::t('notification', 'Action'),
-            'message' => Yii::t('notification', 'Message'),
-            'route' => Yii::t('notification', 'Route'),
-            'status' => Yii::t('notification', 'Status'),
-            'created_at' => Yii::t('notification', 'Created At'),
+            'id' => Module::t('model', 'Id'),
+            'user_id' => Module::t('model', 'User Id'),
+            'category' => Module::t('model', 'Category'),
+            'action' => Module::t('model', 'Action'),
+            'message' => Module::t('model', 'Message'),
+            'route' => Module::t('model', 'Route'),
+            'status' => Module::t('model', 'Status'),
+            'created_at' => Module::t('model', 'Created At'),
         ];
     }
 

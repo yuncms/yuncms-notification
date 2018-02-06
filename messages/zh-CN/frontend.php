@@ -18,16 +18,8 @@
  */
 return [
     'All marked as read' => '全部标记为已读',
-    'Notice' => '通知提醒',
+    'Read' => '',
+    'All notifications have been deleted.' => '所有通知已被删除。',
+    'All notifications have been marked as read.' => '所有通知已被标记为已读。',
     'Notifications' => '通知提醒',
-    'accepted your answer' => '采纳了你的答案',
-    'answered the question' => '回答了问题',
-    'commented on the question' => '评论了问题',
-    'follow on you' => '关注了你',
-    'in your answer' => '',
-    'in your comment' => '',
-    'invited you to answer' => '邀请你回答',
-    'is concerned about the problem' => '关注了问题',
-    'mentions you' => '',
-    'Successful operation.' => '操作成功',
 ];

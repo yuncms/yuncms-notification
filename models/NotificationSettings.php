@@ -1,10 +1,16 @@
 <?php
+/**
+ * @link http://www.tintsoft.com/
+ * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
+ * @license http://www.tintsoft.com/license/
+ */
 
 namespace yuncms\notification\models;
 
 use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yuncms\notification\Module;
 use yuncms\user\models\User;
 
 /**
@@ -12,17 +18,17 @@ use yuncms\user\models\User;
  *
  * @property int $user_id User Id
  * @property string $category Category
- * @property int $web WebTarget
- * @property int $email EmailTarget
- * @property int $sms SmsTarget
- * @property int $app AppTarget
+ * @property int $screen ScreenChannel
+ * @property int $email EmailChannel
+ * @property int $sms SmsChannel
+ * @property int $app AppChannel
  * @property int $updated_at Updated At
  *
  * @property User $user
  */
 class NotificationSettings extends ActiveRecord
 {
-    const ENABLED_MSG = 'msg';
+    const ENABLED_SCREEN = 'screen';
     const ENABLED_SMS = 'sms';
     const ENABLED_EMAIL = 'email';
     const ENABLED_APP = 'app';
@@ -42,13 +48,7 @@ class NotificationSettings extends ActiveRecord
     public function behaviors()
     {
         return [
-            'timestamp' => [
-                'class' => TimestampBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['updated_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at']
-                ],
-            ]
+            TimestampBehavior::className(),
         ];
     }
 
@@ -61,8 +61,8 @@ class NotificationSettings extends ActiveRecord
             [['category'], 'required'],
             [['user_id'], 'integer'],
             [['category'], 'string', 'max' => 200],
-            [['web', 'email', 'sms', 'app'], 'boolean'],
-            [['web', 'email', 'sms', 'app'], 'default', 'value' => true],
+            [['screen', 'email', 'sms', 'app'], 'boolean'],
+            [['screen', 'email', 'sms', 'app'], 'default', 'value' => true],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -73,13 +73,13 @@ class NotificationSettings extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('notification', 'Id'),
-            'user_id' => Yii::t('notification', 'User Id'),
-            'web' => Yii::t('notification', 'WebTarget'),
-            'email' => Yii::t('notification', 'EmailTarget'),
-            'sms' => Yii::t('notification', 'SmsTarget'),
-            'app' => Yii::t('notification', 'AppTarget'),
-            'updated_at' => Yii::t('notification', 'Updated At'),
+            'id' => Module::t('model', 'Id'),
+            'user_id' => Module::t('model', 'User Id'),
+            'screen' => Module::t('model', 'ScreenChannel'),
+            'email' => Module::t('model', 'EmailChannel'),
+            'sms' => Module::t('model', 'SmsChannel'),
+            'app' => Module::t('model', 'AppChannel'),
+            'updated_at' => Module::t('model', 'Updated At'),
         ];
     }
 
@@ -114,11 +114,11 @@ class NotificationSettings extends ActiveRecord
     /**
      * 设置用户通知设置
      * @param integer $user_id
-     * @param string $category
+     * @param string $category 类别
      * @param array $settings
      * @return bool
      */
-    public static function setSettings($user_id,$category, $settings)
+    public static function setSettings($user_id, $category, $settings)
     {
         $model = static::getSettings($user_id, $category);
         $model->setAttributes($settings);

@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use yuncms\notification\frontend\models\Notification;
+use yuncms\notification\frontend\Module;
 
 /**
  * Class NotificationController
@@ -37,7 +38,7 @@ class NotificationController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'list', 'read-all', 'delete-all'],
+                        'actions' => ['index', 'list', 'count', 'read-all', 'delete-all'],
                         'roles' => ['@'],
                     ],
                     [
@@ -78,7 +79,7 @@ class NotificationController extends Controller
     public function actionCount()
     {
         $count = Notification::getCountUnseen();
-        $this->ajaxResponse(['count' => $count]);
+        $this->ajaxResponse(['count' => 500]);
     }
 
     /**
@@ -91,7 +92,7 @@ class NotificationController extends Controller
         if (Yii::$app->getRequest()->getIsAjax()) {
             return $this->ajaxResponse(1);
         }
-        Yii::$app->getSession()->setFlash('success', Yii::t('notification', 'All notifications have been marked as read.'));
+        Yii::$app->getSession()->setFlash('success', Module::t('frontend', 'All notifications have been marked as read.'));
         return $this->redirect(['index']);
     }
 
@@ -105,7 +106,7 @@ class NotificationController extends Controller
         if (Yii::$app->getRequest()->getIsAjax()) {
             return $this->ajaxResponse(1);
         }
-        Yii::$app->getSession()->setFlash('success', Yii::t('notification', 'All notifications have been deleted.'));
+        Yii::$app->getSession()->setFlash('success', Module::t('frontend', 'All notifications have been deleted.'));
         return $this->redirect(['index']);
     }
 
