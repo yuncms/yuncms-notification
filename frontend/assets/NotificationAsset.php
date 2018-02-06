@@ -24,7 +24,7 @@ class NotificationAsset extends AssetBundle
      * @inheritdoc
      */
     public $css = [
-        'css/notifications.css',
+        'css/notification.css',
     ];
 
     public $depends = [

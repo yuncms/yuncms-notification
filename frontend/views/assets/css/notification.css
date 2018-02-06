@@ -56,7 +56,7 @@
     display: inline-block;
     position: relative;
     top: 1px;
-    font-family: 'Glyphicons Halflings';
+    font-family: 'Glyphicons Halflings', serif;
     font-style: normal;
     font-weight: normal;
     line-height: 1;
@@ -78,7 +78,7 @@
     content: "\e008";
     color: #248292;
 }
-.notification-item .timeago {
+.notification-item .time-ago {
     color: #999999;
     font-size: 10px;
     position: absolute;

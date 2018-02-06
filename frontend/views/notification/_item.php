@@ -34,7 +34,7 @@ use yuncms\notification\models\Notification;
         <span class="icon"></span>
         <span class="message"><?= $model->message; ?></span>
     </a>
-    <small class="timeago"><?= Yii::$app->formatter->asRelativeTime($model->created_at); ?></small>
+    <small class="time-ago"><?= Yii::$app->formatter->asRelativeTime($model->created_at); ?></small>
     <span class="mark-read" data-toggle="tooltip" title="
         <? if ($model->isRead): ?>
 

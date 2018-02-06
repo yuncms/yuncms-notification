@@ -60,26 +60,30 @@ class NotificationWidget extends Widget
     public function run()
     {
         $html = Html::beginTag('li', $this->options);
-        $html .= Html::beginTag('a', ['href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
-        $html .= Html::tag('span', '', ['class' => 'fa fa-bell-o fa-lg']);
+        $html .= Html::beginTag('a', ['href' => '#', 'id' => 'unread_notifications', 'data-toggle' => 'dropdown']);
+
         $count = Notification::getCountUnseen();
-        $countOptions = ['class' => 'badge badge-warning navbar-badge notifications-count', 'data-count' => $count];
-        if (!$count) {
-            $countOptions['style'] = 'display: none;';
+
+        $html .= Html::tag('span', '', ['class' => 'fa fa-bell-o fa-lg']);
+
+        if ($count > 0) {
+            if ($count > 99) $count = '99+';
+            $html .= Html::tag('span', $count, ['class' => 'label label-danger']);
         }
-        $html .= Html::tag('span', $count, $countOptions);
+
         $html .= Html::endTag('a');
-        $html .= Html::begintag('div', ['class' => 'dropdown-menu']);
-        $header = Html::a(Yii::t('notification', 'Mark all as read'), '#', ['class' => 'read-all pull-right']);
-        $header .= Yii::t('notification', 'Notifications');
-        $html .= Html::tag('div', $header, ['class' => 'header']);
-        $html .= Html::begintag('div', ['class' => 'notifications-list']);
-        //$html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
-        $html .= Html::tag('div', Html::tag('span', Yii::t('notification', 'There are no notifications to show'), ['style' => 'display: none;']), ['class' => 'empty-row']);
-        $html .= Html::endTag('div');
-        $footer = Html::a(Yii::t('notification', 'View all'), ['/notification/notification/index']);
-        $html .= Html::tag('div', $footer, ['class' => 'footer']);
-        $html .= Html::endTag('div');
+
+            $html .= Html::begintag('div', ['class' => 'dropdown-menu']);
+            $header = Html::a(Yii::t('notification', 'Mark all as read'), '#', ['class' => 'read-all pull-right']);
+            $header .= Yii::t('notification', 'Notifications');
+            $html .= Html::tag('div', $header, ['class' => 'header']);
+            $html .= Html::begintag('div', ['class' => 'notifications-list']);
+            //$html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
+            $html .= Html::tag('div', Html::tag('span', Yii::t('notification', 'There are no notifications to show'), ['style' => 'display: none;']), ['class' => 'empty-row']);
+            $html .= Html::endTag('div');
+            $footer = Html::a(Yii::t('notification', 'View all'), ['/notification/notification/index']);
+            $html .= Html::tag('div', $footer, ['class' => 'footer']);
+            $html .= Html::endTag('div');
         $html .= Html::endTag('li');
 
         echo $html;

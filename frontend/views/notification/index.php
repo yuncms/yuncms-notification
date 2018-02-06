@@ -35,6 +35,3 @@ $this->title = Yii::t('notification', 'Notice');
         </div>
     </div>
 </div>
-
-
-<?= NotificationWidget::widget()?>
