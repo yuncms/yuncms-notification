@@ -22,14 +22,14 @@ var Notifications = (function (opts) {
      * @returns {jQuery|HTMLElement|*}
      */
     var renderRow = function (object) {
-        var html = '<div href="#" class="dropdown-item notification-item' + (object.status !== '0' ? ' read' : '') + '"' +
+        var html = '<div href="#" class="dropdown-item notification-item' + (object.read !== '0' ? ' read' : '') + '"' +
             ' data-id="' + object.id + '"' +
-            ' data-class="' + object.class + '"' +
+            ' data-category="' + object.category + '"' +
             ' data-action="' + object.action + '">' +
             '<span class="icon"></span> ' +
             '<span class="message">' + object.message + '</span>' +
-            '<small class="time-ago">' + object.created_at + '</small>' +
-            '<span class="mark-read" data-toggle="tooltip" title="' + (object.status !== '0' ? options.readLabel : options.markAsReadLabel) + '"></span>' +
+            '<small class="time-ago">' + object.relativeTime + '</small>' +
+            '<span class="mark-read" data-toggle="tooltip" title="' + (object.read !== '0' ? options.readLabel : options.markAsReadLabel) + '"></span>' +
             '</div>';
         return jQuery(html);
     };
@@ -43,6 +43,7 @@ var Notifications = (function (opts) {
             timeout: opts.xhrTimeout,
             //loader: list.parent(),
             success: function (data) {
+                var seen = 0;
                 if (jQuery.isEmptyObject(data.list)) {
                     list.find('.empty-row span').show();
                 }
@@ -59,7 +60,7 @@ var Notifications = (function (opts) {
                         var mark = jQuery(this);
                         jQuery.ajax({
                             url: options.readUrl,
-                            type: "GET",
+                            type: "POST",
                             data: {id: item.data('id')},
                             dataType: "json",
                             timeout: opts.xhrTimeout,
@@ -74,8 +75,13 @@ var Notifications = (function (opts) {
                             document.location = object.url;
                         });
                     }
+
+                    if(object.seen === '0'){
+                        seen += 1;
+                    }
                     list.append(item);
                 });
+                setCount(seen, true);
                 startPoll(true);
             }
         });
@@ -114,7 +120,7 @@ var Notifications = (function (opts) {
     };
 
     var setCount = function (count, decrement) {
-        var badge = elem.find('.notifications-count');
+        var badge = elem.find('#notifications-count');
         if (decrement) {
             count = parseInt(badge.data('count')) - count;
         }

@@ -39,7 +39,7 @@ class NotificationController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'list', 'count', 'read-all', 'delete-all'],
+                        'actions' => ['index', 'list', 'count', 'read', 'read-all', 'delete-all'],
                         'roles' => ['@'],
                     ],
                     [
@@ -72,7 +72,7 @@ class NotificationController extends Controller
     {
         $notifications = Notification::find()->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->limit(10)->orderBy(['id' => SORT_DESC])->all();
         $lists = $this->prepareNotifications($notifications);
-        $this->ajaxResponse(['list' => $lists]);
+        return $this->asJson(['list' => $lists]);
     }
 
     /**
@@ -93,7 +93,7 @@ class NotificationController extends Controller
     public function actionRead($id)
     {
         Notification::updateAll(['read' => true], ['id' => $id]);
-        return $this->ajaxResponse(1);
+        return $this->asJson(1);
     }
 
     /**
@@ -104,7 +104,7 @@ class NotificationController extends Controller
     {
         Notification::setReadAll(Yii::$app->user->id);
         if (Yii::$app->getRequest()->getIsAjax()) {
-            return $this->ajaxResponse(1);
+            return $this->asJson(1);
         }
         Yii::$app->getSession()->setFlash('success', Module::t('frontend', 'All notifications have been marked as read.'));
         return $this->redirect(['index']);
@@ -118,7 +118,7 @@ class NotificationController extends Controller
     {
         Notification::deleteAll(['user_id' => Yii::$app->user->id]);
         if (Yii::$app->getRequest()->getIsAjax()) {
-            return $this->ajaxResponse(1);
+            return $this->asJson(1);
         }
         Yii::$app->getSession()->setFlash('success', Module::t('frontend', 'All notifications have been deleted.'));
         return $this->redirect(['index']);
@@ -148,25 +148,5 @@ class NotificationController extends Controller
         }
 
         return $notifies;
-    }
-
-    /**
-     * AJAX响应
-     * @param array $data
-     * @return Response
-     */
-    public function ajaxResponse($data = [])
-    {
-        if (is_string($data)) {
-            $data = ['html' => $data];
-        }
-        $flashes = Yii::$app->getSession()->getAllFlashes(true);
-        foreach ($flashes as $type => $message) {
-            $data['notifications'][] = [
-                'type' => $type,
-                'message' => $message,
-            ];
-        }
-        return $this->asJson($data);
     }
 }
