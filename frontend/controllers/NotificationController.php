@@ -128,6 +128,7 @@ class NotificationController extends Controller
             $notify = $notification->toArray();
             $notify['url'] = $notification->url;
             $notify['relativeTime'] = $notification->relativeTime;
+
             $notifies[] = $notify;
         }
 
