@@ -14,16 +14,14 @@ use yuncms\user\models\User;
  *
  * @property string $id Id
  * @property int $user_id User Id
- * @property int $to_user_id To User Id
  * @property string $category Category
- * @property string $subject subject
- * @property int $model_id Model Id
- * @property string $refer_model Refer Model
- * @property int $refer_model_id Refer Model Id
- * @property string $content Content
+ * @property string $action Action
+ * @property string $message Message
+ * @property string $route Route
  * @property int $status Status
  * @property int $created_at Created At
  *
+ * @property-read bool $isRead 是否已读
  * @property User $user
  * @property User $toUser
  */
@@ -104,6 +102,24 @@ class Notification extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * 是否已读
+     * @return bool
+     */
+    public function getIsRead()
+    {
+        return $this->status == self::STATUS_READ;
+    }
+
+    /**
+     * 获取路由
+     * @return array|string
+     */
+    public function getRoute()
+    {
+        return @unserialize($this->route);
     }
 
     /**

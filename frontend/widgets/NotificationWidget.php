@@ -13,7 +13,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use yuncms\notification\frontend\assets\NotificationAsset;
-use yuncms\notification\models\Notification;
+use yuncms\notification\frontend\models\Notification;
 
 /**
  * Class Notifications
@@ -61,7 +61,7 @@ class NotificationWidget extends Widget
     {
         $html = Html::beginTag('li', $this->options);
         $html .= Html::beginTag('a', ['href' => '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
-        $html .= Html::tag('span', '', ['class' => 'glyphicon glyphicon-bell']);
+        $html .= Html::tag('span', '', ['class' => 'fa fa-bell-o fa-lg']);
         $count = self::getCountUnseen();
         $countOptions = ['class' => 'badge badge-warning navbar-badge notifications-count', 'data-count' => $count];
         if (!$count) {
@@ -77,7 +77,7 @@ class NotificationWidget extends Widget
         //$html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
         $html .= Html::tag('div', Html::tag('span', Yii::t('notification', 'There are no notifications to show'), ['style' => 'display: none;']), ['class' => 'empty-row']);
         $html .= Html::endTag('div');
-        $footer = Html::a(Yii::t('notification', 'View all'), ['/notification/default/index']);
+        $footer = Html::a(Yii::t('notification', 'View all'), ['/notification/notification/index']);
         $html .= Html::tag('div', $footer, ['class' => 'footer']);
         $html .= Html::endTag('div');
         $html .= Html::endTag('li');
@@ -94,10 +94,10 @@ class NotificationWidget extends Widget
     {
         $this->clientOptions = array_merge([
             'id' => $this->options['id'],
-            'url' => Url::to(['/notification/default/list']),
-            'countUrl' => Url::to(['/notification/default/count']),
-            'readUrl' => Url::to(['/notifications/default/read']),
-            'readAllUrl' => Url::to(['/notification/default/read-all']),
+            'url' => Url::to(['/notification/notification/list']),
+            'countUrl' => Url::to(['/notification/notification/count']),
+            'readUrl' => Url::to(['/notifications/notification/read']),
+            'readAllUrl' => Url::to(['/notification/notification/read-all']),
             'xhrTimeout' => Html::encode($this->xhrTimeout),
             'pollInterval' => Html::encode($this->pollInterval),
         ], $this->clientOptions);
