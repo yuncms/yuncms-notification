@@ -77,11 +77,12 @@ class NotificationController extends Controller
 
     /**
      * 获取未读通知总数
+     * @return Response
      */
     public function actionCount()
     {
         $count = Notification::getCountUnseen();
-        $this->ajaxResponse(['count' => 500]);
+        return $this->asJson(['count' => $count]);
     }
 
     /**
