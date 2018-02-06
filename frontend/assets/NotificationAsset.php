@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\notification\frontend\assets;
 
 use yii\web\AssetBundle;
@@ -28,7 +29,7 @@ class NotificationAsset extends AssetBundle
     ];
 
     public $depends = [
-        'yii\web\JqueryAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
+        'yii\jui\JuiAsset',
     ];
 }
