@@ -20,6 +20,13 @@ class NotificationAsset extends AssetBundle
         'js/notification.js',
     ];
 
+    /**
+     * @inheritdoc
+     */
+    public $css = [
+        'css/notifications.css',
+    ];
+
     public $depends = [
         'yii\web\JqueryAsset',
         'yii\bootstrap\BootstrapAsset',

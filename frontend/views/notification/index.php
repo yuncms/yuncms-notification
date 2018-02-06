@@ -2,6 +2,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\ListView;
+use yuncms\notification\frontend\widgets\NotificationWidget;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -34,3 +35,6 @@ $this->title = Yii::t('notification', 'Notice');
         </div>
     </div>
 </div>
+
+
+<?= NotificationWidget::widget()?>
