@@ -1,14 +1,3 @@
-window.yii.notification = (function ($) {
-    var pub = {
-        isActive: true,
-        init: function () {
-            console.info('init notifications.');
-
-        }
-    };
-    return pub;
-})(window.jQuery);
-
 var Notifications = (function (opts) {
     if (!opts.id) {
         throw new Error('Notifications: the param id is required.');
@@ -33,14 +22,14 @@ var Notifications = (function (opts) {
      * @returns {jQuery|HTMLElement|*}
      */
     var renderRow = function (object) {
-        var html = '<div href="#" class="dropdown-item notification-item' + (object.read !== '0' ? ' read' : '') + '"' +
+        var html = '<div href="#" class="dropdown-item notification-item' + (object.status !== '0' ? ' read' : '') + '"' +
             ' data-id="' + object.id + '"' +
             ' data-class="' + object.class + '"' +
-            ' data-key="' + object.key + '">' +
+            ' data-action="' + object.action + '">' +
             '<span class="icon"></span> ' +
             '<span class="message">' + object.message + '</span>' +
-            '<small class="timeago">' + object.timeago + '</small>' +
-            '<span class="mark-read" data-toggle="tooltip" title="' + (object.read !== '0' ? options.readLabel : options.markAsReadLabel) + '"></span>' +
+            '<small class="time-ago">' + object.created_at + '</small>' +
+            '<span class="mark-read" data-toggle="tooltip" title="' + (object.status !== '0' ? options.readLabel : options.markAsReadLabel) + '"></span>' +
             '</div>';
         return jQuery(html);
     };
@@ -54,24 +43,20 @@ var Notifications = (function (opts) {
             timeout: opts.xhrTimeout,
             //loader: list.parent(),
             success: function (data) {
-                var seen = 0;
-
                 if (jQuery.isEmptyObject(data.list)) {
                     list.find('.empty-row span').show();
                 }
-
                 jQuery.each(data.list, function (index, object) {
                     if (list.find('>div[data-id="' + object.id + '"]').length) {
                         return;
                     }
-
                     var item = renderRow(object);
                     item.find('.mark-read').on('click', function (e) {
                         e.stopPropagation();
                         if (item.hasClass('read')) {
                             return;
                         }
-                        var mark = $(this);
+                        var mark = jQuery(this);
                         jQuery.ajax({
                             url: options.readUrl,
                             type: "GET",
@@ -89,16 +74,8 @@ var Notifications = (function (opts) {
                             document.location = object.url;
                         });
                     }
-
-                    if (object.seen === '0') {
-                        seen += 1;
-                    }
-
                     list.append(item);
                 });
-
-                setCount(seen, true);
-
                 startPoll(true);
             }
         });

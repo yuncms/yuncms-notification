@@ -22,11 +22,12 @@ class M171125092225Create_notification_table extends Migration
             'action' => $this->string(32)->comment('Action'),
             'message' => $this->string(255)->comment('Message'),
             'route' => $this->string(255)->comment('Route'),
-            'status' => $this->smallInteger(1)->comment('Status'),
+            'seen' => $this->boolean()->defaultValue(false)->comment('Seen'),
+            'read' => $this->boolean()->defaultValue(false)->comment('Read'),
             'created_at' => $this->integer()->unsigned()->notNull()->comment('Created At'),
         ], $tableOptions);
 
-        $this->createIndex('notification_index', '{{%notification}}', ['user_id', 'status']);
+        $this->createIndex('notification_index', '{{%notification}}', ['user_id', 'seen']);
         $this->addForeignKey('{{%notification_fk_1}}', '{{%notification}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
     }
 

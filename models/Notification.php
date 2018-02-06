@@ -24,7 +24,8 @@ use yuncms\user\models\User;
  * @property string $action 操作
  * @property string $message 消息内容
  * @property string $route 路由
- * @property int $status 状态
+ * @property bool $seen 是否看过
+ * @property bool $read 是否已读
  * @property int $created_at 创建时间
  *
  * @property-read bool $isRead 是否已读
@@ -32,12 +33,6 @@ use yuncms\user\models\User;
  */
 class Notification extends ActiveRecord
 {
-    //未读
-    const STATUS_UNREAD = 0b0;
-
-    //已读
-    const STATUS_READ = 0b1;
-
     /**
      * @inheritdoc
      */
@@ -78,8 +73,8 @@ class Notification extends ActiveRecord
             [['category',], 'string', 'max' => 64],
             [['action',], 'string', 'max' => 32],
             [['message', 'route'], 'string', 'max' => 255],
-            ['status', 'default', 'value' => self::STATUS_UNREAD],
-            ['status', 'in', 'range' => [self::STATUS_READ, self::STATUS_UNREAD]],
+            [['seen', 'read'], 'boolean'],
+            [['seen', 'read'], 'default', 'value' => false],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -96,6 +91,7 @@ class Notification extends ActiveRecord
             'action' => Module::t('model', 'Action'),
             'message' => Module::t('model', 'Message'),
             'route' => Module::t('model', 'Route'),
+            'seen' => Module::t('model', 'Seen'),
             'status' => Module::t('model', 'Status'),
             'created_at' => Module::t('model', 'Created At'),
         ];
@@ -115,7 +111,7 @@ class Notification extends ActiveRecord
      */
     public function getIsRead()
     {
-        return $this->status == self::STATUS_READ;
+        return (bool)$this->read;
     }
 
     /**
@@ -130,12 +126,11 @@ class Notification extends ActiveRecord
     /**
      * 设置指定用户为全部已读
      * @param int $userId
-     * @param string $channel 渠道
      * @return int
      */
     public static function setReadAll($userId)
     {
-        return self::updateAll(['status' => self::STATUS_READ], ['user_id' => $userId]);
+        return self::updateAll(['read' => true], ['user_id' => $userId]);
     }
 
     /**

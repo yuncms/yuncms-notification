@@ -68,22 +68,22 @@ class NotificationWidget extends Widget
 
         if ($count > 0) {
             if ($count > 99) $count = '99+';
-            $html .= Html::tag('span', $count, ['class' => 'label label-danger']);
+            $html .= Html::tag('span', $count, ['id' => 'notifications-count', 'class' => 'label label-danger']);
         }
 
         $html .= Html::endTag('a');
 
-            $html .= Html::begintag('div', ['class' => 'dropdown-menu']);
-            $header = Html::a(Yii::t('notification', 'Mark all as read'), '#', ['class' => 'read-all pull-right']);
-            $header .= Yii::t('notification', 'Notifications');
-            $html .= Html::tag('div', $header, ['class' => 'header']);
-            $html .= Html::begintag('div', ['class' => 'notifications-list']);
-            //$html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
-            $html .= Html::tag('div', Html::tag('span', Yii::t('notification', 'There are no notifications to show'), ['style' => 'display: none;']), ['class' => 'empty-row']);
-            $html .= Html::endTag('div');
-            $footer = Html::a(Yii::t('notification', 'View all'), ['/notification/notification/index']);
-            $html .= Html::tag('div', $footer, ['class' => 'footer']);
-            $html .= Html::endTag('div');
+        $html .= Html::begintag('div', ['class' => 'dropdown-menu']);
+        $header = Html::a(Yii::t('notification', 'Mark all as read'), '#', ['class' => 'read-all pull-right']);
+        $header .= Yii::t('notification', 'Notifications');
+        $html .= Html::tag('div', $header, ['class' => 'header']);
+        $html .= Html::begintag('div', ['class' => 'notifications-list']);
+        //$html .= Html::tag('div', '<span class="ajax-loader"></span>', ['class' => 'loading-row']);
+        $html .= Html::tag('div', Html::tag('span', Yii::t('notification', 'There are no notifications to show'), ['style' => 'display: none;']), ['class' => 'empty-row']);
+        $html .= Html::endTag('div');
+        $footer = Html::a(Yii::t('notification', 'View all'), ['/notification/notification/index']);
+        $html .= Html::tag('div', $footer, ['class' => 'footer']);
+        $html .= Html::endTag('div');
         $html .= Html::endTag('li');
 
         echo $html;

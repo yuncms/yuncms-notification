@@ -14,6 +14,7 @@ use yii\helpers\Url;
  * Class Notification
  *
  * @property-read string $url 前台访问Url
+ * @property-read string $relativeTime 时间
  * @package yuncms\notification\frontend\models
  *
  * @author Tongle Xu <xutongle@gmail.com>
@@ -21,6 +22,15 @@ use yii\helpers\Url;
  */
 class Notification extends \yuncms\notification\models\Notification
 {
+
+    /**
+     * @return string 本地化时间
+     */
+    public function getRelativeTime()
+    {
+        return Yii::$app->formatter->asRelativeTime($this->created_at);
+    }
+
     /**
      * 获取消息访问Url
      * @return string
@@ -37,6 +47,6 @@ class Notification extends \yuncms\notification\models\Notification
      */
     public static function getCountUnseen()
     {
-        return static::find()->andWhere(['status' => static::STATUS_UNREAD])->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->count();
+        return static::find()->andWhere(['read' => true])->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->count();
     }
 }

@@ -8,6 +8,7 @@
 namespace yuncms\notification\frontend\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -69,8 +70,9 @@ class NotificationController extends Controller
      */
     public function actionList()
     {
-        $list = Notification::find()->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->limit(10)->orderBy(['id' => SORT_DESC])->all();
-        $this->ajaxResponse(['list' => $list]);
+        $notifications = Notification::find()->andWhere(['in', 'user_id', [0, Yii::$app->user->id]])->limit(10)->orderBy(['id' => SORT_DESC])->all();
+        $lists = $this->prepareNotifications($notifications);
+        $this->ajaxResponse(['list' => $lists]);
     }
 
     /**
@@ -108,6 +110,32 @@ class NotificationController extends Controller
         }
         Yii::$app->getSession()->setFlash('success', Module::t('frontend', 'All notifications have been deleted.'));
         return $this->redirect(['index']);
+    }
+
+    /**
+     * 预处理通知
+     * @param Notification[] $notifications
+     * @return array
+     */
+    private function prepareNotifications($notifications)
+    {
+        $notifies = [];
+        $seen = [];
+        foreach ($notifications as $notification) {
+            if (!$notification->seen) {
+                $seen[] = $notification->id;
+            }
+            $notify = $notification->toArray();
+            $notify['url'] = $notification->url;
+            $notify['relativeTime'] = $notification->relativeTime;
+            $notifies[] = $notify;
+        }
+
+        if (!empty($seen)) {
+            Notification::updateAll(['seen' => 1], ['in', 'id' => $seen]);
+        }
+
+        return $notifies;
     }
 
     /**
