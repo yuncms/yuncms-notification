@@ -56,25 +56,13 @@
     display: inline-block;
     position: relative;
     top: 1px;
-    font-family: 'Glyphicons Halflings', serif;
+    font-family: 'Glyphicons Halflings';
     font-style: normal;
     font-weight: normal;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
 }
-.notification-item[data-key="new_order"] .icon:before {
-    content: "\e028";
-    color: #00a65a;
-}
-.notification-item[data-key="cancelled_order"] .icon:before {
-    content: "\e209";
-    color: #e98400;
-}
-.notification-item[data-key="failed_order"] .icon:before {
-    content: "\e162";
-    color: #e90805;
-}
-.notification-item[data-key="new_account"] .icon:before {
+.notification-item[data-category="user"] .icon:before {
     content: "\e008";
     color: #248292;
 }
