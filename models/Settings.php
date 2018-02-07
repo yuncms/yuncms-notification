@@ -56,9 +56,9 @@ class Settings extends Model
     public function attributeLabels()
     {
         return [
-            'enableAppPush' => Yii::t('authentication', 'Enable App Push'),
-            'enableEmailPush' => Yii::t('authentication', 'Enable Email Push'),
-            'enableSmsPush' => Yii::t('authentication', 'Enable Sms Push'),
+            'enableAppPush' => Yii::t('notification', 'Enable App Push'),
+            'enableEmailPush' => Yii::t('notification', 'Enable Email Push'),
+            'enableSmsPush' => Yii::t('notification', 'Enable Sms Push'),
         ];
     }
 

@@ -10,7 +10,6 @@ namespace yuncms\notification\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
-use yuncms\notification\Module;
 use yuncms\user\models\User;
 
 /**
@@ -73,13 +72,13 @@ class NotificationSettings extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Module::t('model', 'Id'),
-            'user_id' => Module::t('model', 'User Id'),
-            'screen' => Module::t('model', 'ScreenChannel'),
-            'email' => Module::t('model', 'EmailChannel'),
-            'sms' => Module::t('model', 'SmsChannel'),
-            'app' => Module::t('model', 'AppChannel'),
-            'updated_at' => Module::t('model', 'Updated At'),
+            'id' => Yii::t('notification', 'Id'),
+            'user_id' => Yii::t('notification', 'User Id'),
+            'screen' => Yii::t('notification', 'ScreenChannel'),
+            'email' => Yii::t('notification', 'EmailChannel'),
+            'sms' => Yii::t('notification', 'SmsChannel'),
+            'app' => Yii::t('notification', 'AppChannel'),
+            'updated_at' => Yii::t('notification', 'Updated At'),
         ];
     }
 

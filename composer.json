@@ -29,14 +29,7 @@
       "translate": {
         "class": "yii\\i18n\\PhpMessageSource",
         "sourceLanguage": "en-US",
-        "basePath": "@yuncms/notification/messages",
-        "fileMap": {
-          "yuncms/notification/validation": "validation.php",
-          "yuncms/notification/form": "form.php",
-          "yuncms/notification/backend": "backend.php",
-          "yuncms/notification/frontend": "frontend.php",
-          "yuncms/notification/model": "model.php"
-        }
+        "basePath": "@yuncms/notification/messages"
       },
       "migrationNamespace": "yuncms\\notification\\migrations",
       "backend": {

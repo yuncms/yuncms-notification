@@ -30,6 +30,7 @@ class NotificationController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
+                    'read' => ['post'],
                     'read-all' => ['post'],
                     'delete-all' => ['post'],
                 ],
@@ -87,11 +88,11 @@ class NotificationController extends Controller
 
     /**
      * 标记为已读
-     * @param int $id
      * @return Response
      */
-    public function actionRead($id)
+    public function actionRead()
     {
+        $id = Yii::$app->request->post('id');
         Notification::updateAll(['read' => true], ['id' => $id]);
         return $this->asJson(1);
     }
@@ -106,7 +107,7 @@ class NotificationController extends Controller
         if (Yii::$app->getRequest()->getIsAjax()) {
             return $this->asJson(1);
         }
-        Yii::$app->getSession()->setFlash('success', Module::t('frontend', 'All notifications have been marked as read.'));
+        Yii::$app->getSession()->setFlash('success', Yii::t('notification', 'All notifications have been marked as read.'));
         return $this->redirect(['index']);
     }
 
@@ -120,7 +121,7 @@ class NotificationController extends Controller
         if (Yii::$app->getRequest()->getIsAjax()) {
             return $this->asJson(1);
         }
-        Yii::$app->getSession()->setFlash('success', Module::t('frontend', 'All notifications have been deleted.'));
+        Yii::$app->getSession()->setFlash('success', Yii::t('notification', 'All notifications have been deleted.'));
         return $this->redirect(['index']);
     }
 

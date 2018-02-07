@@ -12,7 +12,6 @@ use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
-use yuncms\notification\Module;
 use yuncms\user\models\User;
 
 /**
@@ -85,15 +84,15 @@ class Notification extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Module::t('model', 'Id'),
-            'user_id' => Module::t('model', 'User Id'),
-            'category' => Module::t('model', 'Category'),
-            'action' => Module::t('model', 'Action'),
-            'message' => Module::t('model', 'Message'),
-            'route' => Module::t('model', 'Route'),
-            'seen' => Module::t('model', 'Seen'),
-            'status' => Module::t('model', 'Status'),
-            'created_at' => Module::t('model', 'Created At'),
+            'id' => Yii::t('notification', 'Id'),
+            'user_id' => Yii::t('notification', 'User Id'),
+            'category' => Yii::t('notification', 'Category'),
+            'action' => Yii::t('notification', 'Action'),
+            'message' => Yii::t('notification', 'Message'),
+            'route' => Yii::t('notification', 'Route'),
+            'seen' => Yii::t('notification', 'Seen'),
+            'status' => Yii::t('notification', 'Status'),
+            'created_at' => Yii::t('notification', 'Created At'),
         ];
     }
 

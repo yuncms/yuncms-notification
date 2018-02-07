@@ -10,7 +10,7 @@ use xutl\inspinia\ActiveForm;
 /* @var yuncms\notification\models\Settings $model  */
 
 $this->title = Yii::t('notification', 'Settings');
-$this->params['breadcrumbs'][] = Yii::t('notification', 'Manage Authentication');
+$this->params['breadcrumbs'][] = Yii::t('notification', 'Manage Notification');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="wrapper wrapper-content animated fadeInRight">

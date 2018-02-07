@@ -17,7 +17,7 @@ return [
     // string, required, root directory containing message translations.
     'messagePath' => __DIR__,
     'languages' => ['zh-CN'],
-    'translator' => 'Module::t',
+    'translator' => 'Yii::t',
     'sort' => false,
     'overwrite' => true,
     'removeUnused' => false,

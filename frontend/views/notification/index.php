@@ -2,23 +2,22 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\ListView;
-use yuncms\notification\Module;
 use yuncms\notification\frontend\widgets\NotificationWidget;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Module::t('frontend', 'Notifications');
+$this->title = Yii::t('notification', 'Notifications');
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
 
     <div class="col-xs-12 col-md-12 main">
         <h2 class="h3 profile-title">
-            <?= Module::t('frontend', 'Notifications') ?>
+            <?= Yii::t('notification', 'Notifications') ?>
             <div class="pull-right">
                 <a class="btn btn-primary" href="<?=Url::to(['/notification/notification/read-all'])?>" data-method="post">
-                    <?=Module::t('frontend', 'All marked as read')?>
+                    <?=Yii::t('notification', 'All marked as read')?>
                 </a>
             </div>
         </h2>
