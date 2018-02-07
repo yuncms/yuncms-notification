@@ -22,14 +22,14 @@ var Notifications = (function (opts) {
      * @returns {jQuery|HTMLElement|*}
      */
     var renderRow = function (object) {
-        var html = '<div href="#" class="dropdown-item notification-item' + (object.read !== '0' ? ' read' : '') + '"' +
+        var html = '<div href="#" class="dropdown-item notification-item' + (object.read !== 0 ? ' read' : '') + '"' +
             ' data-id="' + object.id + '"' +
             ' data-category="' + object.category + '"' +
             ' data-action="' + object.action + '">' +
             '<span class="icon"></span> ' +
             '<span class="message">' + object.message + '</span>' +
             '<small class="time-ago">' + object.relativeTime + '</small>' +
-            '<span class="mark-read" data-toggle="tooltip" title="' + (object.read !== '0' ? options.readLabel : options.markAsReadLabel) + '"></span>' +
+            '<span class="mark-read" data-toggle="tooltip" title="' + (object.read !== 0 ? options.readLabel : options.markAsReadLabel) + '"></span>' +
             '</div>';
         return jQuery(html);
     };
@@ -76,7 +76,7 @@ var Notifications = (function (opts) {
                         });
                     }
 
-                    if(object.seen === '0'){
+                    if(object.seen === 0){
                         seen += 1;
                     }
                     list.append(item);
