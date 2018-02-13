@@ -28,7 +28,7 @@ class M171125092225Create_notification_table extends Migration
         ], $tableOptions);
 
         $this->createIndex('notification_index', '{{%notification}}', ['user_id', 'seen']);
-        $this->addForeignKey('{{%notification_fk_1}}', '{{%notification}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'RESTRICT');
+        $this->addForeignKey('{{%notification_fk_1}}', '{{%notification}}', 'user_id', '{{%user}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
