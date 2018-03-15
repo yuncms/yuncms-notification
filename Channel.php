@@ -35,7 +35,7 @@ abstract class Channel extends BaseObject
     }
 
     /**
-     * 发送通知
+     * 开始推送
      * @param Notification $notification
      * @return mixed
      */

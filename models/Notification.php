@@ -48,13 +48,13 @@ class Notification extends ActiveRecord
     {
         return [
             'timestamp' => [
-                'class' => TimestampBehavior::className(),
+                'class' => TimestampBehavior::class,
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at']
                 ],
             ],
             'user' => [
-                'class' => BlameableBehavior::className(),
+                'class' => BlameableBehavior::class,
                 'attributes' => [
                     Model::EVENT_BEFORE_VALIDATE => 'user_id',
                 ],
@@ -74,7 +74,7 @@ class Notification extends ActiveRecord
             [['message', 'route'], 'string', 'max' => 255],
             [['seen', 'read'], 'boolean'],
             [['seen', 'read'], 'default', 'value' => false],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -101,7 +101,7 @@ class Notification extends ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
     /**
